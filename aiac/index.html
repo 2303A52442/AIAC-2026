@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIAC Project</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 48px 20px; }
+    .card { background: #111827; border: 1px solid #334155; border-radius: 16px; padding: 24px; }
+    button { background: #2563eb; color: white; border: 0; padding: 12px 18px; border-radius: 10px; cursor: pointer; }
+    input { margin: 16px 0; }
+    pre { background: #020617; padding: 16px; border-radius: 12px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>AIAC Project Folder</h1>
+      <p>This is a simple frontend placeholder inside the dedicated project folder.</p>
+      <input type="file" id="image" accept="image/*" />
+      <br />
+      <button id="verify">Verify</button>
+      <pre id="output">Upload an image and click Verify.</pre>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('verify').addEventListener('click', async () => {
+      const fileInput = document.getElementById('image');
+      const output = document.getElementById('output');
+      if (!fileInput.files.length) {
+        output.textContent = 'Please select an image first.';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+
+      const response = await fetch('/verify', { method: 'POST', body: formData });
+      const data = await response.json();
+      output.textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
